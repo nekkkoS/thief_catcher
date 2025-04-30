@@ -18,16 +18,16 @@ public:
 	float AddStaminaPercentage();
 	float DecreaseStaminaPercentage();
 
-private:
+protected:
 
-	UPROPERTY(EditDefaultsOnly, Category="CharacterStamina")
+	UPROPERTY(EditDefaultsOnly, Category=CharacterStamina)
 	float Stamina = 100.0f;
 	
 	bool bIsTired = false;
 
-	UPROPERTY(EditDefaultsOnly, Category="CharacterStamina")
+	UPROPERTY(EditDefaultsOnly, Category=CharacterStamina)
 	USoundBase* TiredSound;
 	
-	UPROPERTY(EditDefaultsOnly, Category="CharacterStamina")
+	UPROPERTY(EditDefaultsOnly, Category=CharacterStamina)
 	UAnimMontage* VertigoAnimMontage;
 };
