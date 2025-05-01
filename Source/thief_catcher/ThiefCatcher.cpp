@@ -22,16 +22,16 @@ AThiefCatcher::AThiefCatcher() : Super()
 void AThiefCatcher::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 {
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
-	
+
 	PlayerInputComponent->BindAxis("MoveForwardBackward", this, &AThiefCatcher::MoveForwardBackward);
 	PlayerInputComponent->BindAxis("MoveRightLeft", this, &AThiefCatcher::MoveRightLeft);
-	
+
 	PlayerInputComponent->BindAxis("Turn", this, &AThiefCatcher::AddControllerYawInput);
 	PlayerInputComponent->BindAxis("LookUpDown", this, &AThiefCatcher::AddControllerPitchInput);
 
 	PlayerInputComponent->BindAction("Jump", IE_Pressed, this, &AThiefCatcher::Jump);
 	PlayerInputComponent->BindAction("Jump", IE_Released, this, &AThiefCatcher::StopJumping);
-	
+
 	PlayerInputComponent->BindAction("Sprint", IE_Pressed, this, &AThiefCatcher::Sprint);
 	PlayerInputComponent->BindAction("Sprint", IE_Released, this, &AThiefCatcher::StopSprint);
 }
@@ -52,7 +52,7 @@ void AThiefCatcher::Jump()
 {
 	Super::Jump();
 	bPressedJump = true;
-	
+
 	if (JumpAnimMontage)
 		PlayAnimMontage(JumpAnimMontage, 1.0, NAME_None);
 }
@@ -71,12 +71,12 @@ float AThiefCatcher::GetStamina() const
 void AThiefCatcher::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-	
+
 	if (bIsSprinting && Stamina > 0.f)
 		DecreaseStamina();
 	else if (!bIsSprinting && Stamina < 100.f)
 		IncreaseStamina();
-	
+
 	if (FMath::IsNearlyZero(Stamina))
 		StopSprint();
 }
@@ -99,12 +99,12 @@ void AThiefCatcher::IncreaseStamina()
 {
 	Stamina += PlusStamina;
 	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Green,
-		FString::Printf(TEXT("Stamina: %f"), Stamina));
+	                                 FString::Printf(TEXT("Stamina: %f"), Stamina));
 }
 
 void AThiefCatcher::DecreaseStamina()
 {
 	Stamina -= MinusStamina;
 	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red,
-		FString::Printf(TEXT("Stamina: %f"), Stamina));
+	                                 FString::Printf(TEXT("Stamina: %f"), Stamina));
 }
