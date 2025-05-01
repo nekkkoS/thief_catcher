@@ -28,6 +28,8 @@ public:
 
 	virtual void StopJumping() override;
 
+	float GetStamina() const;
+
 protected:
 	
 	UPROPERTY(VisibleAnywhere)

@@ -63,6 +63,11 @@ void AThiefCatcher::StopJumping()
 	bPressedJump = false;
 }
 
+float AThiefCatcher::GetStamina() const
+{
+	return Stamina;
+}
+
 void AThiefCatcher::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
