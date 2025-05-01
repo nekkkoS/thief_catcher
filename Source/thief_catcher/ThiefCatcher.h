@@ -24,9 +24,9 @@ public:
 	
 	void MoveRightLeft(float Value);
 
-	void Jump() override;
+	virtual void Jump() override;
 
-	void StopJumping() override;
+	virtual void StopJumping() override;
 
 protected:
 	
@@ -38,4 +38,25 @@ protected:
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = JumpAnimation)
 	UAnimMontage* JumpAnimMontage;
+
+private:
+
+	virtual void Tick(float DeltaTime) override;
+
+	void Sprint();
+
+	void StopSprint();
+
+	void IncreaseStamina();
+
+	void DecreaseStamina();
+
+	UPROPERTY(EditDefaultsOnly, Category=Stamina)
+	float MinusStamina = 1.0f;
+
+	UPROPERTY(EditDefaultsOnly, Category=Stamina)
+	float PlusStamina = 1.0f;
+
+	bool bIsSprinting;
+
 };

@@ -20,7 +20,7 @@ public:
 
 protected:
 
-	UPROPERTY(EditDefaultsOnly, Category=CharacterStamina)
+	UPROPERTY(EditDefaultsOnly, Category=Stamina, meta=(ClampMin = 0, ClampMax = 100))
 	float Stamina = 100.0f;
 	
 	bool bIsTired = false;

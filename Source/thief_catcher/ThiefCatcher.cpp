@@ -1,5 +1,7 @@
 #include "ThiefCatcher.h"
 
+#include "GameFramework/CharacterMovementComponent.h"
+
 AThiefCatcher::AThiefCatcher() : Super()
 {
 	SpringArm = CreateDefaultSubobject<USpringArmComponent>("SpringArmComponent");
@@ -29,6 +31,9 @@ void AThiefCatcher::SetupPlayerInputComponent(UInputComponent* PlayerInputCompon
 
 	PlayerInputComponent->BindAction("Jump", IE_Pressed, this, &AThiefCatcher::Jump);
 	PlayerInputComponent->BindAction("Jump", IE_Released, this, &AThiefCatcher::StopJumping);
+	
+	PlayerInputComponent->BindAction("Sprint", IE_Pressed, this, &AThiefCatcher::Sprint);
+	PlayerInputComponent->BindAction("Sprint", IE_Released, this, &AThiefCatcher::StopSprint);
 }
 
 void AThiefCatcher::MoveForwardBackward(float Value)
@@ -47,7 +52,7 @@ void AThiefCatcher::Jump()
 {
 	Super::Jump();
 	bPressedJump = true;
-
+	
 	if (JumpAnimMontage)
 		PlayAnimMontage(JumpAnimMontage, 1.0, NAME_None);
 }
@@ -56,4 +61,45 @@ void AThiefCatcher::StopJumping()
 {
 	Super::StopJumping();
 	bPressedJump = false;
+}
+
+void AThiefCatcher::Tick(float DeltaTime)
+{
+	Super::Tick(DeltaTime);
+	
+	if (bIsSprinting && Stamina > 0.f)
+		DecreaseStamina();
+	else if (!bIsSprinting && Stamina < 100.f)
+		IncreaseStamina();
+	
+	if (FMath::IsNearlyZero(Stamina))
+		StopSprint();
+}
+
+void AThiefCatcher::Sprint()
+{
+	bIsSprinting = true;
+	GetCharacterMovement()->MaxWalkSpeed = 1200.0f;
+	DecreaseStamina();
+}
+
+void AThiefCatcher::StopSprint()
+{
+	bIsSprinting = false;
+	GetCharacterMovement()->MaxWalkSpeed = 600.0f;
+	IncreaseStamina();
+}
+
+void AThiefCatcher::IncreaseStamina()
+{
+	Stamina += PlusStamina;
+	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Green,
+		FString::Printf(TEXT("Stamina: %f"), Stamina));
+}
+
+void AThiefCatcher::DecreaseStamina()
+{
+	Stamina -= MinusStamina;
+	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red,
+		FString::Printf(TEXT("Stamina: %f"), Stamina));
 }
