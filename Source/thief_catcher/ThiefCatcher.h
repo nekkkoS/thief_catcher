@@ -4,13 +4,14 @@
 #include "MainCharacter.h"
 #include "GameFramework/SpringArmComponent.h"
 #include "Camera/CameraComponent.h"
+#include "InteractInterface.h"
 #include "ThiefCatcher.generated.h"
 
 /**
  * 
  */
 UCLASS()
-class THIEF_CATCHER_API AThiefCatcher : public AMainCharacter
+class THIEF_CATCHER_API AThiefCatcher : public AMainCharacter, public IInteractInterface
 {
 	GENERATED_BODY()
 
@@ -29,6 +30,8 @@ public:
 	virtual void StopJumping() override;
 
 	float GetStamina() const;
+
+	virtual void AddStamina_Implementation(float AddStamina) override;
 
 protected:
 	

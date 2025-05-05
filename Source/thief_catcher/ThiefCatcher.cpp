@@ -68,6 +68,12 @@ float AThiefCatcher::GetStamina() const
 	return Stamina;
 }
 
+void AThiefCatcher::AddStamina_Implementation(float AddStamina)
+{
+	IInteractInterface::AddStamina_Implementation(AddStamina);
+	Stamina += AddStamina;
+}
+
 void AThiefCatcher::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
@@ -98,13 +104,13 @@ void AThiefCatcher::StopSprint()
 void AThiefCatcher::IncreaseStamina()
 {
 	Stamina += PlusStamina;
-	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Green,
-	                                 FString::Printf(TEXT("Stamina: %f"), Stamina));
+	// GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Green,
+	//                                  FString::Printf(TEXT("Stamina: %f"), Stamina));
 }
 
 void AThiefCatcher::DecreaseStamina()
 {
 	Stamina -= MinusStamina;
-	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red,
-	                                 FString::Printf(TEXT("Stamina: %f"), Stamina));
+	// GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red,
+	//                                  FString::Printf(TEXT("Stamina: %f"), Stamina));
 }
