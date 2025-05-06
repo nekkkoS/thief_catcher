@@ -78,6 +78,8 @@ void AThiefCatcher::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
+	TouchEnemy();
+
 	if (bIsSprinting && Stamina > 0.f)
 		DecreaseStamina();
 	else if (!bIsSprinting && Stamina < 100.f)
@@ -113,4 +115,26 @@ void AThiefCatcher::DecreaseStamina()
 	Stamina -= MinusStamina;
 	// GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red,
 	//                                  FString::Printf(TEXT("Stamina: %f"), Stamina));
+}
+
+void AThiefCatcher::TouchEnemy()
+{
+	FVector TraceStart = GetActorLocation();
+	FRotator CharacterRotation = GetActorRotation();
+	FVector TraceEnd = TraceStart + (CharacterRotation.Vector() * 700.f);
+	FHitResult HitResult;
+	FCollisionQueryParams QueryParams;
+	QueryParams.AddIgnoredActor(this);
+
+	DrawDebugLine(GetWorld(), TraceStart, TraceEnd, FColor::Green, false, 1, 0,
+	              1);
+
+	bool bIsHit = GetWorld()->LineTraceSingleByChannel(HitResult, TraceStart, TraceEnd, ECC_Visibility,
+		QueryParams);
+
+	if (HitResult.bBlockingHit && HitResult.GetActor())
+	{
+		GEngine->AddOnScreenDebugMessage(-1, 1, FColor::Blue,
+			FString::Printf(TEXT("You hitted: %s"), *HitResult.GetActor()->GetName()));
+	}
 }

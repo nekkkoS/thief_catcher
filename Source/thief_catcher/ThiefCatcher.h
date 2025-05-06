@@ -56,6 +56,9 @@ private:
 
 	void DecreaseStamina();
 
+	UFUNCTION()
+	void TouchEnemy();
+
 	UPROPERTY(EditDefaultsOnly, Category=Stamina)
 	float MinusStamina = 1.0f;
 
