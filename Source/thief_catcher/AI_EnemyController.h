@@ -25,10 +25,21 @@ public:
 
 	FVector RandomLocation;
 
-	UFUNCTION()
+	UFUNCTION(BlueprintCallable)
 	void RandomPatrol();
 
-	AActor* Enemy = UGameplayStatics::GetActorOfClass(GetWorld(), AEnemy::StaticClass());
-	AActor* Player = UGameplayStatics::GetActorOfClass(GetWorld(), AThiefCatcher::StaticClass());
+	// AActor* Enemy = UGameplayStatics::GetActorOfClass(GetWorld(), AEnemy::StaticClass());
+	// AActor* Player = UGameplayStatics::GetActorOfClass(GetWorld(), AThiefCatcher::StaticClass());
+
+	FTimerHandle RunAway;
+	FTimerHandle PointDelay;
+
+	bool bPlayerIsNear;
+
+	UFUNCTION(BlueprintCallable)
+	void RunAwayFromPlayer();
+
+	UFUNCTION(BlueprintCallable)
+	void ClearTimer();
 	
 };

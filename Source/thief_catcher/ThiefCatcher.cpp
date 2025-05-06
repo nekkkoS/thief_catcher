@@ -1,6 +1,8 @@
 #include "ThiefCatcher.h"
 
 #include "GameFramework/CharacterMovementComponent.h"
+#include "Kismet/GameplayStatics.h"
+#include "Kismet/KismetSystemLibrary.h"
 
 AThiefCatcher::AThiefCatcher() : Super()
 {
@@ -136,5 +138,13 @@ void AThiefCatcher::TouchEnemy()
 	{
 		GEngine->AddOnScreenDebugMessage(-1, 1, FColor::Blue,
 			FString::Printf(TEXT("You hitted: %s"), *HitResult.GetActor()->GetName()));
+
+		AActor* Target = HitResult.GetActor();
+		if (Target && Target->ActorHasTag("Thief"))
+		{
+			// UKismetSystemLibrary::QuitGame(this,
+			// 	UGameplayStatics::GetPlayerController(this, 0),
+			// 	EQuitPreference::Quit, true);
+		}
 	}
 }

@@ -14,5 +14,8 @@ UCLASS()
 class THIEF_CATCHER_API AEnemy : public AMainCharacter
 {
 	GENERATED_BODY()
-	
+
+public:
+
+	AEnemy();
 };
