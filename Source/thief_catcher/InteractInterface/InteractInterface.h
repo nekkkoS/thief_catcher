@@ -24,5 +24,5 @@ class THIEF_CATCHER_API IInteractInterface
 public:
 
 	UFUNCTION(BlueprintNativeEvent)
-	void AddStamina(float AddStamina);
+	void AddStamina(const float AddStamina);
 };

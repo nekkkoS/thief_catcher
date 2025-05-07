@@ -21,7 +21,7 @@ public:
 
 	float GetStamina() const;
 
-	virtual void AddStamina_Implementation(float AddStamina) override;
+	virtual void AddStamina_Implementation(const float AdditionalStamina) override;
 
 protected:
 	
@@ -40,9 +40,9 @@ private:
 
 	virtual void SetupPlayerInputComponent(UInputComponent* PlayerInputComponent) override;
 
-	void MoveForwardBackward(float Value);
+	void MoveForwardBackward(const float Value);
 	
-	void MoveRightLeft(float Value);
+	void MoveRightLeft(const float Value);
 
 	virtual void Jump() override;
 
@@ -57,15 +57,15 @@ private:
 	void DecreaseStamina();
 
 	UFUNCTION()
-	void TouchEnemy();
+	void TouchEnemy() const;
 
 	UPROPERTY(EditDefaultsOnly, Category=Stamina, meta=(ClampMin = 0, ClampMax = 100))
 	float Stamina = 100.0f;
 
-	UPROPERTY(EditDefaultsOnly, Category=Stamina)
+	UPROPERTY(EditDefaultsOnly, Category=Stamina, meta=(ClampMin = 0, ClampMax = 100))
 	float MinusStamina = 1.0f;
 
-	UPROPERTY(EditDefaultsOnly, Category=Stamina)
+	UPROPERTY(EditDefaultsOnly, Category=Stamina, meta=(ClampMin = 0, ClampMax = 100))
 	float PlusStamina = 1.0f;
 
 	bool bIsSprinting = false;

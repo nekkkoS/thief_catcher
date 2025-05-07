@@ -1,24 +1,59 @@
 #include "MainCharacter.h"
 
 #include "GameFramework/CharacterMovementComponent.h"
-#include "Kismet/GameplayStatics.h"
-#include "Kismet/KismetSystemLibrary.h"
 
 AMainCharacter::AMainCharacter() : Super()
 {
 	SpringArm = CreateDefaultSubobject<USpringArmComponent>("SpringArmComponent");
+	if (!SpringArm)
+	{
+		UE_LOG(LogTemp, Fatal, TEXT("Failed to create SpringArmComponent!"));
+		return;
+	}
+	
 	SpringArm->SetupAttachment(RootComponent);
 	SpringArm->TargetArmLength = 300.0f;
+	SpringArm->bUsePawnControlRotation = true;
 
 	Camera = CreateDefaultSubobject<UCameraComponent>("MainCamera");
+	if (!Camera)
+	{
+		UE_LOG(LogTemp, Fatal, TEXT("Failed to create MainCamera!"));
+		return;
+	}
+	
 	Camera->SetupAttachment(SpringArm);
-
-	SpringArm->bUsePawnControlRotation = true;
 	Camera->bUsePawnControlRotation = false;
 
 	bUseControllerRotationRoll = false;
 	bUseControllerRotationPitch = false;
 	bUseControllerRotationYaw = false;
+}
+
+float AMainCharacter::GetStamina() const
+{
+	return Stamina;
+}
+
+void AMainCharacter::AddStamina_Implementation(const float AdditionalStamina)
+{
+	IInteractInterface::AddStamina_Implementation(AdditionalStamina);
+	Stamina += AdditionalStamina;
+}
+
+void AMainCharacter::Tick(float DeltaTime)
+{
+	Super::Tick(DeltaTime);
+
+	TouchEnemy();
+
+	if (bIsSprinting && Stamina > 0.f)
+		DecreaseStamina();
+	else if (!bIsSprinting && Stamina < 100.f)
+		IncreaseStamina();
+
+	if (FMath::IsNearlyZero(Stamina))
+		StopSprint();
 }
 
 void AMainCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
@@ -38,15 +73,15 @@ void AMainCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCompo
 	PlayerInputComponent->BindAction("Sprint", IE_Released, this, &AMainCharacter::StopSprint);
 }
 
-void AMainCharacter::MoveForwardBackward(float Value)
+void AMainCharacter::MoveForwardBackward(const float Value)
 {
-	FVector Direction = FRotationMatrix(Controller->GetControlRotation()).GetScaledAxis(EAxis::X);
+	const FVector Direction = FRotationMatrix(Controller->GetControlRotation()).GetScaledAxis(EAxis::X);
 	AddMovementInput(Direction, Value);
 }
 
-void AMainCharacter::MoveRightLeft(float Value)
+void AMainCharacter::MoveRightLeft(const float Value)
 {
-	FVector Direction = FRotationMatrix(Controller->GetControlRotation()).GetScaledAxis(EAxis::Y);
+	const FVector Direction = FRotationMatrix(Controller->GetControlRotation()).GetScaledAxis(EAxis::Y);
 	AddMovementInput(Direction, Value);
 }
 
@@ -57,38 +92,14 @@ void AMainCharacter::Jump()
 
 	if (JumpAnimMontage)
 		PlayAnimMontage(JumpAnimMontage, 1.0, NAME_None);
+	else
+		UE_LOG(LogTemp, Fatal, TEXT("Failed to PlayAnimMontage!"));
 }
 
 void AMainCharacter::StopJumping()
 {
 	Super::StopJumping();
 	bPressedJump = false;
-}
-
-float AMainCharacter::GetStamina() const
-{
-	return Stamina;
-}
-
-void AMainCharacter::AddStamina_Implementation(float AddStamina)
-{
-	IInteractInterface::AddStamina_Implementation(AddStamina);
-	Stamina += AddStamina;
-}
-
-void AMainCharacter::Tick(float DeltaTime)
-{
-	Super::Tick(DeltaTime);
-
-	TouchEnemy();
-
-	if (bIsSprinting && Stamina > 0.f)
-		DecreaseStamina();
-	else if (!bIsSprinting && Stamina < 100.f)
-		IncreaseStamina();
-
-	if (FMath::IsNearlyZero(Stamina))
-		StopSprint();
 }
 
 void AMainCharacter::Sprint()
@@ -108,32 +119,28 @@ void AMainCharacter::StopSprint()
 void AMainCharacter::IncreaseStamina()
 {
 	Stamina += PlusStamina;
-	// GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Green,
-	//                                  FString::Printf(TEXT("Stamina: %f"), Stamina));
 }
 
 void AMainCharacter::DecreaseStamina()
 {
 	Stamina -= MinusStamina;
-	// GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red,
-	//                                  FString::Printf(TEXT("Stamina: %f"), Stamina));
 }
 
-void AMainCharacter::TouchEnemy()
+void AMainCharacter::TouchEnemy() const
 {
-	FVector TraceStart = GetActorLocation();
-	FRotator CharacterRotation = GetActorRotation();
-	FVector TraceEnd = TraceStart + (CharacterRotation.Vector() * 700.f);
-	FHitResult HitResult;
+	const FVector TraceStart = GetActorLocation();
+	const FRotator CharacterRotation = GetActorRotation();
+	constexpr float DistanceForTouching{70.f};
+	const FVector TraceEnd = TraceStart + (CharacterRotation.Vector() * DistanceForTouching);
 	FCollisionQueryParams QueryParams;
 	QueryParams.AddIgnoredActor(this);
 
 	DrawDebugLine(GetWorld(), TraceStart, TraceEnd, FColor::Green, false, 1, 0,
 	              1);
 
-	bool bIsHit = GetWorld()->LineTraceSingleByChannel(HitResult, TraceStart, TraceEnd, ECC_Visibility,
-		QueryParams);
-
+	FHitResult HitResult;
+	GetWorld()->LineTraceSingleByChannel(HitResult, TraceStart, TraceEnd, ECC_Visibility, QueryParams);
+	
 	if (HitResult.bBlockingHit && HitResult.GetActor())
 	{
 		GEngine->AddOnScreenDebugMessage(-1, 1, FColor::Blue,
@@ -142,6 +149,7 @@ void AMainCharacter::TouchEnemy()
 		AActor* Target = HitResult.GetActor();
 		if (Target && Target->ActorHasTag("Thief"))
 		{
+			GEngine->AddOnScreenDebugMessage(-1, 1, FColor::Magenta, "Win win !!!");
 			// UKismetSystemLibrary::QuitGame(this,
 			// 	UGameplayStatics::GetPlayerController(this, 0),
 			// 	EQuitPreference::Quit, true);

@@ -16,7 +16,7 @@ class THIEF_CATCHER_API AAI_EnemyController : public AAIController
 
 public:
 
-	void BeginPlay() override;
+	virtual void BeginPlay() override;
 
 	class UNavigationSystemV1* NavigationMesh;
 
