@@ -32,7 +32,7 @@ void AAI_EnemyController::RunAwayFromPlayer()
 		true, -1.f);
 
 	FVector PawnLocation = GetPawn()->GetActorLocation();
-	AThiefCatcher* PlayerCharacter = Cast<AThiefCatcher>(UGameplayStatics::GetPlayerCharacter(GetWorld(),
+	AMainCharacter* PlayerCharacter = Cast<AMainCharacter>(UGameplayStatics::GetPlayerCharacter(GetWorld(),
 		0));
 
 	FVector ForwardVector = PlayerCharacter->GetActorForwardVector();

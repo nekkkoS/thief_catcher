@@ -3,7 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "MainCharacter.h"
+#include "BaseCharacter.h"
 #include "Navigation/PathFollowingComponent.h"
 #include "Enemy.generated.h"
 
@@ -11,7 +11,7 @@
  * 
  */
 UCLASS()
-class THIEF_CATCHER_API AEnemy : public AMainCharacter
+class THIEF_CATCHER_API AEnemy : public ABaseCharacter
 {
 	GENERATED_BODY()
 

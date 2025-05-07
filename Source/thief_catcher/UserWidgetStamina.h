@@ -6,7 +6,7 @@
 #include "Blueprint/UserWidget.h"
 #include "UserWidgetStamina.generated.h"
 
-class AThiefCatcher;
+class AMainCharacter;
 
 /**
  * 

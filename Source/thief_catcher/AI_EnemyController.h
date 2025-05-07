@@ -5,7 +5,7 @@
 #include "CoreMinimal.h"
 #include "AIController.h"
 #include "Enemy.h"
-#include "ThiefCatcher.h"
+#include "MainCharacter.h"
 #include "Kismet/GameplayStatics.h"
 #include "AI_EnemyController.generated.h"
 
@@ -29,7 +29,7 @@ public:
 	void RandomPatrol();
 
 	// AActor* Enemy = UGameplayStatics::GetActorOfClass(GetWorld(), AEnemy::StaticClass());
-	// AActor* Player = UGameplayStatics::GetActorOfClass(GetWorld(), AThiefCatcher::StaticClass());
+	// AActor* Player = UGameplayStatics::GetActorOfClass(GetWorld(), AMainCharacter::StaticClass());
 
 	FTimerHandle RunAway;
 	FTimerHandle PointDelay;

@@ -1,33 +1,70 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "GameFramework/Character.h"
+#include "BaseCharacter.h"
+#include "GameFramework/SpringArmComponent.h"
+#include "Camera/CameraComponent.h"
+#include "InteractInterface.h"
 #include "MainCharacter.generated.h"
 
+/**
+ * 
+ */
 UCLASS()
-class THIEF_CATCHER_API AMainCharacter : public ACharacter
+class THIEF_CATCHER_API AMainCharacter : public ABaseCharacter, public IInteractInterface
 {
 	GENERATED_BODY()
 
 public:
-	// Sets default values for this character's properties
+	
 	AMainCharacter();
 
-	float GetStaminaPercentage() const;
-	bool StaminaIsZero();
-	float AddStaminaPercentage();
-	float DecreaseStaminaPercentage();
+	virtual void SetupPlayerInputComponent(UInputComponent* PlayerInputComponent) override;
+
+	void MoveForwardBackward(float Value);
+	
+	void MoveRightLeft(float Value);
+
+	virtual void Jump() override;
+
+	virtual void StopJumping() override;
+
+	float GetStamina() const;
+
+	virtual void AddStamina_Implementation(float AddStamina) override;
 
 protected:
-
-	UPROPERTY(EditDefaultsOnly, Category=Stamina, meta=(ClampMin = 0, ClampMax = 100))
-	float Stamina = 100.0f;
 	
-	bool bIsTired = false;
+	UPROPERTY(VisibleAnywhere)
+	USpringArmComponent* SpringArm;
 
-	UPROPERTY(EditDefaultsOnly, Category=CharacterStamina)
-	USoundBase* TiredSound;
-	
-	UPROPERTY(EditDefaultsOnly, Category=CharacterStamina)
-	UAnimMontage* VertigoAnimMontage;
+	UPROPERTY(VisibleAnywhere)
+	UCameraComponent* Camera;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = JumpAnimation)
+	UAnimMontage* JumpAnimMontage;
+
+private:
+
+	virtual void Tick(float DeltaTime) override;
+
+	void Sprint();
+
+	void StopSprint();
+
+	void IncreaseStamina();
+
+	void DecreaseStamina();
+
+	UFUNCTION()
+	void TouchEnemy();
+
+	UPROPERTY(EditDefaultsOnly, Category=Stamina)
+	float MinusStamina = 1.0f;
+
+	UPROPERTY(EditDefaultsOnly, Category=Stamina)
+	float PlusStamina = 1.0f;
+
+	bool bIsSprinting;
+
 };

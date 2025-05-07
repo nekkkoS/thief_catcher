@@ -2,12 +2,12 @@
 
 
 #include "UserWidgetStamina.h"
-#include "ThiefCatcher.h"
+#include "MainCharacter.h"
 #include "Kismet/GameplayStatics.h"
 
 float UUserWidgetStamina::GetCharacterStamina()
 {
-	const AThiefCatcher* OurPlayer = Cast<AThiefCatcher>
+	const AMainCharacter* OurPlayer = Cast<AMainCharacter>
 	(UGameplayStatics::GetPlayerCharacter(this, 0));
 	
 	return OurPlayer->GetStamina() / 100.0f;

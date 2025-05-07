@@ -3,7 +3,7 @@
 
 AThiefCatcherGameMode::AThiefCatcherGameMode() : Super()
 {
-	ConstructorHelpers::FClassFinder<APawn> MainCharacterThiefCatcher(TEXT("/Game/Blueprints/BP_Remy"));
+	ConstructorHelpers::FClassFinder<APawn> MainCharacterThiefCatcher(TEXT("/Game/Remy/BP_Remy"));
 	DefaultPawnClass = MainCharacterThiefCatcher.Class;
 	HUDClass = ACharacterHUD::StaticClass();
 }
