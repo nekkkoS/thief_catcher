@@ -4,7 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
-#include "InteractInterface.h"
+#include "../InteractInterface/InteractInterface.h"
 #include "EnergyDrink.generated.h"
 
 UCLASS()

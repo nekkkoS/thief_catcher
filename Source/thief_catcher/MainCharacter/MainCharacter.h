@@ -1,10 +1,10 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "BaseCharacter.h"
+#include "../BaseCharacter/BaseCharacter.h"
 #include "GameFramework/SpringArmComponent.h"
 #include "Camera/CameraComponent.h"
-#include "InteractInterface.h"
+#include "../InteractInterface/InteractInterface.h"
 #include "MainCharacter.generated.h"
 
 /**
@@ -18,16 +18,6 @@ class THIEF_CATCHER_API AMainCharacter : public ABaseCharacter, public IInteract
 public:
 	
 	AMainCharacter();
-
-	virtual void SetupPlayerInputComponent(UInputComponent* PlayerInputComponent) override;
-
-	void MoveForwardBackward(float Value);
-	
-	void MoveRightLeft(float Value);
-
-	virtual void Jump() override;
-
-	virtual void StopJumping() override;
 
 	float GetStamina() const;
 
@@ -48,6 +38,16 @@ private:
 
 	virtual void Tick(float DeltaTime) override;
 
+	virtual void SetupPlayerInputComponent(UInputComponent* PlayerInputComponent) override;
+
+	void MoveForwardBackward(float Value);
+	
+	void MoveRightLeft(float Value);
+
+	virtual void Jump() override;
+
+	virtual void StopJumping() override;
+
 	void Sprint();
 
 	void StopSprint();
@@ -59,12 +59,15 @@ private:
 	UFUNCTION()
 	void TouchEnemy();
 
+	UPROPERTY(EditDefaultsOnly, Category=Stamina, meta=(ClampMin = 0, ClampMax = 100))
+	float Stamina = 100.0f;
+
 	UPROPERTY(EditDefaultsOnly, Category=Stamina)
 	float MinusStamina = 1.0f;
 
 	UPROPERTY(EditDefaultsOnly, Category=Stamina)
 	float PlusStamina = 1.0f;
 
-	bool bIsSprinting;
+	bool bIsSprinting = false;
 
 };

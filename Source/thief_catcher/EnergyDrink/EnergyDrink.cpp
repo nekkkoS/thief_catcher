@@ -20,6 +20,7 @@ void AEnergyDrink::Overlap(UPrimitiveComponent* OverlappedComponent, AActor* Oth
 	UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
 {
 	IInteractInterface::Execute_AddStamina(OtherActor, AddStamina);
+	// TODO: Фиксануть рангдомное воспроизвеедение звука
 	UGameplayStatics::PlaySoundAtLocation(this, DrinkSound, GetActorLocation(),
 		0.5f, 1, 0);
 	Destroy();

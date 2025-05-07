@@ -1,5 +1,5 @@
 #include "ThiefCatcherGameMode.h"
-#include "CharacterHUD.h"
+#include "../CharacterHUD/CharacterHUD.h"
 
 AThiefCatcherGameMode::AThiefCatcherGameMode() : Super()
 {

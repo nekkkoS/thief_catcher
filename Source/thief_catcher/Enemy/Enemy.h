@@ -3,8 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "BaseCharacter.h"
-#include "Navigation/PathFollowingComponent.h"
+#include "../BaseCharacter/BaseCharacter.h"
 #include "Enemy.generated.h"
 
 /**

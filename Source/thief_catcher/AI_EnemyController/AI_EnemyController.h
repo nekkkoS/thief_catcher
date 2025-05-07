@@ -4,9 +4,6 @@
 
 #include "CoreMinimal.h"
 #include "AIController.h"
-#include "Enemy.h"
-#include "MainCharacter.h"
-#include "Kismet/GameplayStatics.h"
 #include "AI_EnemyController.generated.h"
 
 /**

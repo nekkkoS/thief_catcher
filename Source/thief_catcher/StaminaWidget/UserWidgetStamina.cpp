@@ -2,7 +2,7 @@
 
 
 #include "UserWidgetStamina.h"
-#include "MainCharacter.h"
+#include "../MainCharacter/MainCharacter.h"
 #include "Kismet/GameplayStatics.h"
 
 float UUserWidgetStamina::GetCharacterStamina()

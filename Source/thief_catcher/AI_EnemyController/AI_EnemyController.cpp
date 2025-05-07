@@ -3,6 +3,8 @@
 
 #include "AI_EnemyController.h"
 #include "NavigationSystem.h"
+#include "../MainCharacter/MainCharacter.h"
+#include "Kismet/GameplayStatics.h"
 
 void AAI_EnemyController::BeginPlay()
 {
