@@ -17,12 +17,13 @@ void AAI_EnemyController::BeginPlay()
 
 void AAI_EnemyController::RandomPatrol()
 {
-	GetWorld()->GetTimerManager().SetTimer(PointDelay, this, &AAI_EnemyController::RandomPatrol, 3.f);
+	GetWorld()->GetTimerManager().SetTimer(PointDelay, this, &AAI_EnemyController::RandomPatrol,
+		PatrolPointDelay);
 	
 	if (NavigationMesh)
 	{
 		NavigationMesh->K2_GetRandomReachablePointInRadius(GetWorld(), GetPawn()->GetActorLocation(),
-			RandomLocation, 1500.f);
+			RandomLocation, PatrolRandomLocationRadius);
 		
 		MoveToLocation(RandomLocation);
 	}
@@ -30,8 +31,8 @@ void AAI_EnemyController::RandomPatrol()
 
 void AAI_EnemyController::RunAwayFromPlayer()
 {
-	GetWorld()->GetTimerManager().SetTimer(RunAway, this, &AAI_EnemyController::RunAwayFromPlayer, 1.f,
-		true, -1.f);
+	GetWorld()->GetTimerManager().SetTimer(RunAway, this, &AAI_EnemyController::RunAwayFromPlayer,
+		RunAwayUpdateInterval,true, -1.f);
 
 	const FVector PawnLocation = GetPawn()->GetActorLocation();
 	const AMainCharacter* PlayerCharacter = Cast<AMainCharacter>(UGameplayStatics::GetPlayerCharacter(GetWorld(),
@@ -40,16 +41,21 @@ void AAI_EnemyController::RunAwayFromPlayer()
 	const FVector ForwardVector = PlayerCharacter->GetActorForwardVector();
 	const FVector RightVector = PlayerCharacter->GetActorRightVector();
 
-	FVector WhereToMove = PawnLocation + ForwardVector + 700.f + RightVector + 700.f;
+	FVector WhereToMove = PawnLocation + ForwardVector + RunAwayOffset + RightVector + RunAwayOffset;
 
 	// Рассчитать дистанцию от врага к нашему игроку
 	const float Distance = GetPawn()->GetDistanceTo(PlayerCharacter);
 
-	if (NavigationMesh && Distance < 700.f)
+	if (NavigationMesh && Distance < MinRunAwayDistance)
 	{
-		GEngine->AddOnScreenDebugMessage(-1, 5, FColor::Red, "RunAwayFromPlayer");
+		if (bShowDebugMessages)
+		{
+			GEngine->AddOnScreenDebugMessage(-1, 5, FColor::Red,
+				"Player detected - run away");
+		}
+		
 		NavigationMesh->K2_GetRandomReachablePointInRadius(GetWorld(), GetPawn()->GetActorLocation(),
-			WhereToMove, 1500.f);
+			WhereToMove, RunAwaySearchRadius);
 		ClearTimer();
 	}
 }

@@ -20,7 +20,7 @@ public:
 	UStaticMeshComponent* DrinkStaticMesh;
 
 	UPROPERTY(EditDefaultsOnly)
-	float AddStamina = 5.f;
+	float AdditionalStaminaByDrink = 20.f;
 
 	UPROPERTY()
 	USoundBase* DrinkSound;

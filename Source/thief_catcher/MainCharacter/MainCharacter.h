@@ -68,6 +68,18 @@ private:
 	UPROPERTY(EditDefaultsOnly, Category=Stamina, meta=(ClampMin = 0, ClampMax = 100))
 	float PlusStamina = 1.0f;
 
+	UPROPERTY(EditDefaultsOnly, Category=Stamina)
+	float MaxWalkSpeedWithStamina = 1500.f;
+
+	UPROPERTY(EditDefaultsOnly, Category=Stamina)
+	float MaxWalkSpeedWithoutStamina = 600.f;
+
+	UPROPERTY(EditDefaultsOnly)
+	float DistanceForTouchingEnemy = 70.f;
+
 	bool bIsSprinting = false;
+
+	UPROPERTY(EditDefaultsOnly, Category = Debug)
+	bool bShowDebugMessages = true;
 
 };

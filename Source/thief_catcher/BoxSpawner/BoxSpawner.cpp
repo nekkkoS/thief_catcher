@@ -21,8 +21,8 @@ void ABoxSpawner::BeginPlay()
 	Super::BeginPlay();
 
 	FTimerHandle SpawnDelay;
-	GetWorldTimerManager().SetTimer(SpawnDelay, this, &ABoxSpawner::SpawnActor, 1, bShouldSpawnLoop,
-	                                1);
+	GetWorldTimerManager().SetTimer(SpawnDelay, this, &ABoxSpawner::SpawnActor, SpawnInterval,
+		bShouldSpawnLoop, InitialDelay);
 }
 
 void ABoxSpawner::SpawnActor() const

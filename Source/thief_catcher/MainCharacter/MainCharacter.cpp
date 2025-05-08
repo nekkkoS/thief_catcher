@@ -105,14 +105,14 @@ void AMainCharacter::StopJumping()
 void AMainCharacter::Sprint()
 {
 	bIsSprinting = true;
-	GetCharacterMovement()->MaxWalkSpeed = 1200.0f;
+	GetCharacterMovement()->MaxWalkSpeed = MaxWalkSpeedWithStamina;
 	DecreaseStamina();
 }
 
 void AMainCharacter::StopSprint()
 {
 	bIsSprinting = false;
-	GetCharacterMovement()->MaxWalkSpeed = 600.0f;
+	GetCharacterMovement()->MaxWalkSpeed = MaxWalkSpeedWithoutStamina;
 	IncreaseStamina();
 }
 
@@ -130,8 +130,8 @@ void AMainCharacter::TouchEnemy() const
 {
 	const FVector TraceStart = GetActorLocation();
 	const FRotator CharacterRotation = GetActorRotation();
-	constexpr float DistanceForTouching{70.f};
-	const FVector TraceEnd = TraceStart + (CharacterRotation.Vector() * DistanceForTouching);
+	const FVector TraceEnd = TraceStart + (CharacterRotation.Vector() * DistanceForTouchingEnemy);
+	
 	FCollisionQueryParams QueryParams;
 	QueryParams.AddIgnoredActor(this);
 
@@ -143,13 +143,18 @@ void AMainCharacter::TouchEnemy() const
 	
 	if (HitResult.bBlockingHit && HitResult.GetActor())
 	{
-		GEngine->AddOnScreenDebugMessage(-1, 1, FColor::Blue,
-			FString::Printf(TEXT("You hitted: %s"), *HitResult.GetActor()->GetName()));
+		if (bShowDebugMessages)
+		{
+			GEngine->AddOnScreenDebugMessage(-1, 1, FColor::Blue,
+			FString::Printf(TEXT("You hit: %s"), *HitResult.GetActor()->GetName()));
+		}
 
 		AActor* Target = HitResult.GetActor();
 		if (Target && Target->ActorHasTag("Thief"))
 		{
-			GEngine->AddOnScreenDebugMessage(-1, 1, FColor::Magenta, "Win win !!!");
+			if (bShowDebugMessages)
+				GEngine->AddOnScreenDebugMessage(-1, 1, FColor::Magenta, "Win win !!!");
+			
 			// UKismetSystemLibrary::QuitGame(this,
 			// 	UGameplayStatics::GetPlayerController(this, 0),
 			// 	EQuitPreference::Quit, true);

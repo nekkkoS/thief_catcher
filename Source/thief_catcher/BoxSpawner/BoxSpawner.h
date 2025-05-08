@@ -27,12 +27,24 @@ private:
 	UPROPERTY()
 	UBoxComponent* BoxSpawner;
 
-	UPROPERTY(EditDefaultsOnly)
+	// Класс для спавна
+	UPROPERTY(EditDefaultsOnly, Category=Spawn)
 	TSubclassOf<AActor> SpawnerClass;
 
-	UPROPERTY(EditDefaultsOnly)
+	// Количество объектов для спавна за раз
+	UPROPERTY(EditDefaultsOnly, Category=Spawn)
 	int NumberSpawnObjects;
 
-	UPROPERTY(EditDefaultsOnly)
+	// Нужно ли спавнить в цикле
+	UPROPERTY(EditDefaultsOnly, Category=Spawn)
 	bool bShouldSpawnLoop;
+
+	// Задержка перед первым спавном
+	UPROPERTY(EditDefaultsOnly, Category=Spawn)
+	float InitialDelay = 1.0f;
+
+	// Интервал между спавнами
+	UPROPERTY(EditDefaultsOnly, Category=Spawn)
+	float SpawnInterval = 1.0f;
+	
 };
