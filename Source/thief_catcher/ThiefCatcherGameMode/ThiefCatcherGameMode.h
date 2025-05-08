@@ -13,6 +13,7 @@ class THIEF_CATCHER_API AThiefCatcherGameMode : public AGameModeBase
 	GENERATED_BODY()
 
 public:
+	
 	AThiefCatcherGameMode();
 	
 };

@@ -33,17 +33,17 @@ void AAI_EnemyController::RunAwayFromPlayer()
 	GetWorld()->GetTimerManager().SetTimer(RunAway, this, &AAI_EnemyController::RunAwayFromPlayer, 1.f,
 		true, -1.f);
 
-	FVector PawnLocation = GetPawn()->GetActorLocation();
-	AMainCharacter* PlayerCharacter = Cast<AMainCharacter>(UGameplayStatics::GetPlayerCharacter(GetWorld(),
+	const FVector PawnLocation = GetPawn()->GetActorLocation();
+	const AMainCharacter* PlayerCharacter = Cast<AMainCharacter>(UGameplayStatics::GetPlayerCharacter(GetWorld(),
 		0));
 
-	FVector ForwardVector = PlayerCharacter->GetActorForwardVector();
-	FVector RightVector = PlayerCharacter->GetActorRightVector();
+	const FVector ForwardVector = PlayerCharacter->GetActorForwardVector();
+	const FVector RightVector = PlayerCharacter->GetActorRightVector();
 
 	FVector WhereToMove = PawnLocation + ForwardVector + 700.f + RightVector + 700.f;
 
 	// Рассчитать дистанцию от врага к нашему игроку
-	float Distance = GetPawn()->GetDistanceTo(PlayerCharacter);
+	const float Distance = GetPawn()->GetDistanceTo(PlayerCharacter);
 
 	if (NavigationMesh && Distance < 700.f)
 	{

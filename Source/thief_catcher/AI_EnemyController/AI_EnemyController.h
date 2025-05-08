@@ -14,29 +14,30 @@ class THIEF_CATCHER_API AAI_EnemyController : public AAIController
 {
 	GENERATED_BODY()
 
-public:
+protected:
 
 	virtual void BeginPlay() override;
 
-	class UNavigationSystemV1* NavigationMesh;
-
-	FVector RandomLocation;
+private:
 
 	UFUNCTION(BlueprintCallable)
 	void RandomPatrol();
-
-	// AActor* Enemy = UGameplayStatics::GetActorOfClass(GetWorld(), AEnemy::StaticClass());
-	// AActor* Player = UGameplayStatics::GetActorOfClass(GetWorld(), AMainCharacter::StaticClass());
-
-	FTimerHandle RunAway;
-	FTimerHandle PointDelay;
-
-	bool bPlayerIsNear;
 
 	UFUNCTION(BlueprintCallable)
 	void RunAwayFromPlayer();
 
 	UFUNCTION(BlueprintCallable)
 	void ClearTimer();
+
+	UPROPERTY(Transient)
+	class UNavigationSystemV1* NavigationMesh;
+
+	FVector RandomLocation;
+
+	FTimerHandle RunAway;
+	
+	FTimerHandle PointDelay;
+
+	bool bPlayerIsNear;
 	
 };

@@ -16,5 +16,6 @@ class THIEF_CATCHER_API AEnemy : public ABaseCharacter
 
 public:
 
-	AEnemy();
+	AEnemy() { Tags.Add("Thief"); }
+	
 };

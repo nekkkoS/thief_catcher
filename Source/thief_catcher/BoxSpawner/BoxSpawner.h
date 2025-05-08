@@ -31,7 +31,7 @@ private:
 	TSubclassOf<AActor> SpawnerClass;
 
 	UPROPERTY(EditDefaultsOnly)
-	int SpawnObjectsCount;
+	int NumberSpawnObjects;
 
 	UPROPERTY(EditDefaultsOnly)
 	bool bShouldSpawnLoop;

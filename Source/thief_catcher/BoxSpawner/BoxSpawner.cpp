@@ -8,7 +8,9 @@
 // Sets default values
 ABoxSpawner::ABoxSpawner()
 {
-	SpawnObjectsCount = 5;
+	PrimaryActorTick.bCanEverTick = false;
+	
+	NumberSpawnObjects = 5;
 	BoxSpawner = CreateDefaultSubobject<UBoxComponent>("Box Spawner");
 	BoxSpawner->SetCollisionEnabled(ECollisionEnabled::NoCollision);
 }
@@ -25,7 +27,7 @@ void ABoxSpawner::BeginPlay()
 
 void ABoxSpawner::SpawnActor() const
 {
-	for (int i = 0; i < SpawnObjectsCount; i++)
+	for (int i = 0; i < NumberSpawnObjects; i++)
 	{
 		FRotator Rotation(0, 0, 0);
 		FVector RandomLocation = UKismetMathLibrary::RandomPointInBoundingBox(GetActorLocation(),

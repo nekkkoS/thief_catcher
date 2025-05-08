@@ -2,8 +2,3 @@
 
 
 #include "Enemy.h"
-
-AEnemy::AEnemy()
-{
-	Tags.Add("Thief");
-}

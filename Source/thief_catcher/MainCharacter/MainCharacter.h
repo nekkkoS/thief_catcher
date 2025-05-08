@@ -24,6 +24,8 @@ public:
 	virtual void AddStamina_Implementation(const float AdditionalStamina) override;
 
 protected:
+
+	virtual void Tick(float DeltaTime) override;
 	
 	UPROPERTY(VisibleAnywhere)
 	USpringArmComponent* SpringArm;
@@ -35,8 +37,6 @@ protected:
 	UAnimMontage* JumpAnimMontage;
 
 private:
-
-	virtual void Tick(float DeltaTime) override;
 
 	virtual void SetupPlayerInputComponent(UInputComponent* PlayerInputComponent) override;
 

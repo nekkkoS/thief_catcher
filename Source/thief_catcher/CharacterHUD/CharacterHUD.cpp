@@ -7,7 +7,7 @@
 
 ACharacterHUD::ACharacterHUD() : Super()
 {
-	ConstructorHelpers::FClassFinder<UUserWidget> WBP_Stamina(TEXT("/Game/Widgets/WBP_Stamina"));
+	const ConstructorHelpers::FClassFinder<UUserWidget> WBP_Stamina(TEXT("/Game/Widgets/WBP_Stamina"));
 	MainHUD = WBP_Stamina.Class;
 }
 

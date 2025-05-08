@@ -12,4 +12,6 @@ class THIEF_CATCHER_API ABaseCharacter : public ACharacter
 public:
 	// Sets default values for this character's properties
 	ABaseCharacter() {}
+
+	virtual ~ABaseCharacter() override {}
 };
