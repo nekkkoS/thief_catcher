@@ -53,7 +53,7 @@ void AMainCharacter::Tick(float DeltaTime)
 	else if (!bIsSprinting && Stamina < 100.f)
 		IncreaseStamina();
 
-	if (FMath::IsNearlyZero(Stamina))
+	if (Stamina <= 0.f)
 		StopSprint();
 }
 
