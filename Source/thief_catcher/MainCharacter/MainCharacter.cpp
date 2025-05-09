@@ -1,6 +1,7 @@
 #include "MainCharacter.h"
 
 #include "GameFramework/CharacterMovementComponent.h"
+#include "Kismet/GameplayStatics.h"
 
 AMainCharacter::AMainCharacter() : Super()
 {
@@ -52,7 +53,7 @@ void AMainCharacter::Tick(float DeltaTime)
 	else if (!bIsSprinting && Stamina < 100.f)
 		IncreaseStamina();
 
-	if (FMath::IsNearlyZero(Stamina))
+	if (Stamina <= 0.f)
 		StopSprint();
 }
 
@@ -155,8 +156,11 @@ void AMainCharacter::TouchEnemy() const
 	FCollisionQueryParams QueryParams;
 	QueryParams.AddIgnoredActor(this);
 
-	DrawDebugLine(GetWorld(), TraceStart, TraceEnd, FColor::Green, false, 1, 0,
-	              1);
+	if (bShowDebugMessages)
+	{
+		DrawDebugLine(GetWorld(), TraceStart, TraceEnd, FColor::Green, false, 1, 0,
+				  1);
+	}
 
 	FHitResult HitResult;
 	GetWorld()->LineTraceSingleByChannel(HitResult, TraceStart, TraceEnd, ECC_Visibility, QueryParams);
@@ -174,6 +178,8 @@ void AMainCharacter::TouchEnemy() const
 		{
 			if (bShowDebugMessages)
 				GEngine->AddOnScreenDebugMessage(-1, 1, FColor::Magenta, "Win win !!!");
+
+			UGameplayStatics::OpenLevel(this, FName(*GetWorld()->GetName()), false);
 			
 			// UKismetSystemLibrary::QuitGame(this,
 			// 	UGameplayStatics::GetPlayerController(this, 0),
