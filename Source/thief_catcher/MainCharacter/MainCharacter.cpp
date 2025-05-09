@@ -90,10 +90,11 @@ void AMainCharacter::Jump()
 	if (GetCharacterMovement()->IsFalling())
 		return;
 	
+	// Задержка прыжка для совпадения с анимацией
 	GetWorld()->GetTimerManager().ClearTimer(JumpTimerHandle);
 	GetWorld()->GetTimerManager().SetTimer(JumpTimerHandle, this, &AMainCharacter::ExecuteJump,
 		0.3f, false);
-	
+
 	if (JumpAnimMontage)
 		PlayAnimMontage(JumpAnimMontage, 1.0, NAME_None);
 	else
@@ -113,6 +114,12 @@ void AMainCharacter::StopJumping()
 {
 	Super::StopJumping();
 	bPressedJump = false;
+
+	// Отменяем запланированный прыжок, если игрок отпустил кнопку
+	if (GetWorld()->GetTimerManager().IsTimerActive(JumpTimerHandle))
+	{
+		GetWorld()->GetTimerManager().ClearTimer(JumpTimerHandle);
+	}
 }
 
 void AMainCharacter::Sprint()
