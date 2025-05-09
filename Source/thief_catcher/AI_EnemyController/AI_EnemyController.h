@@ -32,27 +32,27 @@ private:
 
 	// Задержка (в секундах) между выбором следующей случайной точки патрулирования
 	UPROPERTY(EditDefaultsOnly, Category = AI, meta=(ClampMin = 0))
-	float PatrolPointDelay = 3.f;
+	float PatrolPointDelay = 2.f;
 
 	// Максимальный радиус, в пределах которого ИИ ищет новую точку для патрулирования
 	UPROPERTY(EditDefaultsOnly, Category = AI, meta=(ClampMin = 0))
-	float PatrolRandomLocationRadius = 1500.f;
+	float PatrolRandomLocationRadius = 5000.f;
 
 	// Частота обновления побега (в секунду)
 	UPROPERTY(EditDefaultsOnly, Category = AI, meta=(ClampMin = 0))
-	float RunAwayUpdateInterval = 1.0f;  
+	float RunAwayUpdateInterval = 2.0f;  
 
 	// Минимальная дистанция для побега
 	UPROPERTY(EditDefaultsOnly, Category = AI, meta=(ClampMin = 0))
-	float MinRunAwayDistance = 700.0f;  
+	float MinRunAwayDistance = 3000.0f;  
 
 	// Отступ от игрока при побеге
 	UPROPERTY(EditDefaultsOnly, Category = AI, meta=(ClampMin = 0))
-	float RunAwayOffset = 700.0f;  
+	float RunAwayOffset = 4000.0f;  
 
 	// Радиус поиска точки для побега 
 	UPROPERTY(EditDefaultsOnly, Category = AI, meta=(ClampMin = 0))
-	float RunAwaySearchRadius = 1500.0f; 
+	float RunAwaySearchRadius = 7000.0f; 
 
 	FVector RandomLocation;
 
@@ -63,6 +63,6 @@ private:
 	bool bPlayerIsNear;
 
 	UPROPERTY(EditDefaultsOnly, Category = Debug)
-	bool bShowDebugMessages = true;
+	bool bShowDebugMessages = false;
 	
 };
