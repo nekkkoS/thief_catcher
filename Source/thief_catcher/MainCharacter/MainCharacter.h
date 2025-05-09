@@ -46,6 +46,8 @@ private:
 
 	virtual void Jump() override;
 
+	void ExecuteJump();
+
 	virtual void StopJumping() override;
 
 	void Sprint();
@@ -78,6 +80,8 @@ private:
 	float DistanceForTouchingEnemy = 70.f;
 
 	bool bIsSprinting = false;
+
+	FTimerHandle JumpTimerHandle;
 
 	UPROPERTY(EditDefaultsOnly, Category = Debug)
 	bool bShowDebugMessages = true;

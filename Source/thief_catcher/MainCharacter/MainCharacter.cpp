@@ -87,13 +87,26 @@ void AMainCharacter::MoveRightLeft(const float Value)
 
 void AMainCharacter::Jump()
 {
-	Super::Jump();
-	bPressedJump = true;
-
+	if (GetCharacterMovement()->IsFalling())
+		return;
+	
+	GetWorld()->GetTimerManager().ClearTimer(JumpTimerHandle);
+	GetWorld()->GetTimerManager().SetTimer(JumpTimerHandle, this, &AMainCharacter::ExecuteJump,
+		0.3f, false);
+	
 	if (JumpAnimMontage)
 		PlayAnimMontage(JumpAnimMontage, 1.0, NAME_None);
 	else
 		UE_LOG(LogTemp, Fatal, TEXT("Failed to PlayAnimMontage!"));
+}
+
+void AMainCharacter::ExecuteJump()
+{
+	if (!GetCharacterMovement()->IsFalling())
+	{
+		Super::Jump();
+		bPressedJump = true;
+	}
 }
 
 void AMainCharacter::StopJumping()
