@@ -40,6 +40,9 @@ void AMainCharacter::AddStamina_Implementation(const float AdditionalStamina)
 {
 	IInteractInterface::AddStamina_Implementation(AdditionalStamina);
 	Stamina += AdditionalStamina;
+
+	if (Stamina > 100)
+		Stamina = 100;
 }
 
 void AMainCharacter::Tick(float DeltaTime)
