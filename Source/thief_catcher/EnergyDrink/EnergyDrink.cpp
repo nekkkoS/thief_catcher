@@ -23,12 +23,8 @@ AEnergyDrink::AEnergyDrink()
 void AEnergyDrink::Overlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor,
 	UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
 {
-	// На случай если другой EnergyDrink при спавне пересёк существующий EnergyDrink
-	if (OtherActor->ActorHasTag("EnergyDrink"))
-	{
-		OtherActor->Destroy();
+	if (OtherActor->ActorHasTag("EnergyDrink") || OtherActor->ActorHasTag("Thief"))
 		return;
-	}
 	
 	IInteractInterface::Execute_AddStamina(OtherActor, AdditionalStaminaByDrink);
 	
